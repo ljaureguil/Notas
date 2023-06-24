@@ -12,14 +12,14 @@
         overflow: auto;
         width: 100%;
         height: 100%;
-        padding:5px;
+        padding: 5px;
     }
     .cd {
         text-align: center;
         margin: 5px;
         border-style: double;
         border-radius: 3px;
-        padding:5px;
+        padding: 5px;
     }
     .ct {
         font-size: 20px;
@@ -38,78 +38,96 @@
         width: 90%;
         height: 35%;
         font-size: 14px;
-        font-weight:bold;
+        font-weight: bold;
         box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06), 0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086), 0 100px 80px rgba(0, 0, 0, 0.12);
     }
-    
-    #plus{
-    position:absolute;
-    top:1%;
-    right:4%;
-    color:white;
-    background:red;
-    width:20px;
-    height:20pz;
-    border-radius:100px;
-    font-weight:bold;
-    font-size:20px;
+    #plus {
+        position: absolute;
+        top: 1%;
+        right: 4%;
+        color: white;
+        background: red;
+        width: 20px;
+        height: 20pz;
+        border-radius: 100px;
+        font-weight: bold;
+        font-size: 20px;
     }
-    .cbd{
-        margin:15px;
-}
-.cse{
-    margin:15px;
-}
-  .cm{
-  width:90%;
-  
-  border-radius:100px;
-  font-size:24px;
-  }
+    .cbd {
+        margin: 15px;
+    }
+    .cse {
+        margin: 15px;
+        width: 80%;;
+        background-color: cornsilk;
+        border-radius: 100px;
+    }
+    .cm {
+        width: 90%;
+        border-radius: 100px;
+        font-size: 24px;
+    }
+    #temp{
+         background-color: cornsilk;
+        position: absolute;
+        width: 60%;;
+        height: 20%;
+        top:30%;
+        left: 20%;
+        display: none;
+        padding: 10px;
+        border-style:double;
+        border-radius:8px;
+        font-weight:bold;
+        
+        box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06), 0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086), 0 100px 80px rgba(0, 0, 0, 0.12);
+       opacity:.85;
+    }
 </style>
 
 <div id="todo">
 
-
-
 </div>
+<textarea id="temp" value=""></textarea>
 
 <button id="plus" onclick="crBlankNota()">+</button>
 
 <script>
-
- //   app.TextToSpeech( "DroidScript is awesome!", 1.0, 1.0 );
-var speechRecognizer;
-         if ("window.SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
-             speechRecognizer = new webkitSpeechRecognition();
-             speechRecognizer.continuous = false;
-             speechRecognizer.interimResults = true;
-             speechRecognizer.lang = "es-MX | en-US";
-             speechRecognizer.maxAlternatives = 1;
-         }
-         else {
-             alert("your browser does not support speech recognition")
-         }
+    //   app.TextToSpeech( "DroidScript is awesome!", 1.0, 1.0 );
+    var speechRecognizer;
+    if ("window.SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
+        speechRecognizer = new webkitSpeechRecognition();
+        speechRecognizer.continuous = false;
+        speechRecognizer.interimResults = true;
+        speechRecognizer.lang = "es-MX | en-US";
+        speechRecognizer.maxAlternatives = 1;
+    } else {
+        alert("your browser does not support speech recognition")
+    }
 
     var active = false;
     var notas;
-//localStorage.removeItem("notas")
+    //localStorage.removeItem("notas")
     var ns = localStorage.getItem("notas");
-    
+
     if (ns != null) notas = JSON.parse(ns)
     else notas = [{
         name: "",
         nota: "",
         fe: "",
-        st: {status:"blank"}
+        st: {
+            status: "blank"
+        }
     }];
     if (notas[notas.length - 1].nota != "") notas.push({
         name: "",
         nota: "",
         fe: (new Date()).toISOString().replace(/T/g, ", Time: ").replace(/Z/g, ""),
-        st: {status:"blank"}
+        st: {
+            status: "blank"
+        }
     })
-  //  alert(JSON.stringify(notas));
+    //  alert(JSON.stringify(notas));
 
     setUpNotas();
 
@@ -132,89 +150,93 @@ var speechRecognizer;
         localStorage.setItem("notas", JSON.stringify(notas));
     }
 
-    function setSt(s){ 
-        var v=s.value;
-        if(v==="delete"){
-            if(confirm("Are you sure you want to delete this note?")){
-            var i=s.parentNode.nota;
-         //   alert(notas.indexOf(i))
-           notas.splice(notas.indexOf(i),1)
+    function setSt(s) {
+        var v = s.value;
+        if (v === "delete") {
+            if (confirm("Are you sure you want to delete this note?")) {
+                var i = s.parentNode.nota;
+                //   alert(notas.indexOf(i))
+                notas.splice(notas.indexOf(i), 1)
                 todo.removeChild(s.parentNode);
-               
-           }
-         
+
+            }
+
         }
-        if(v==="pending"){
-             s.parentNode.style.background="#ccffcc";
+                if (v === "pShow Trash") {
+           // s.parentNode.style.background = "#ccffcc";
         }
-        if(v==="coming"){
-              s.parentNode.style.background="#ccccff";
+        if (v === "pending") {
+            s.parentNode.style.background = "#ccffcc";
         }
-         if(v==="done"){
-              s.parentNode.style.background="#ffcccc";
+        if (v === "coming") {
+            s.parentNode.style.background = "#ccccff";
         }
-        s.parentNode.nota.st.status=v;
- 
+        if (v === "done") {
+            s.parentNode.style.background = "#ffcccc";
+        }
+        s.parentNode.nota.st.status = v;
+
         saveNotas();
     }
-    function updateStatus(d){
-       v=d.nota.st.status;
-        if(v==="pending"){
-             d.style.background="#ccffcc";
+
+    function updateStatus(d) {
+        v = d.nota.st.status;
+        if (v === "pending") {
+            d.style.background = "#ccffcc";
         }
-        if(v==="coming"){
-              d.style.background="#ccccff";
+        if (v === "coming") {
+            d.style.background = "#ccccff";
         }
-         if(v==="done"){
-              d.style.background="#ffcccc";
+        if (v === "done") {
+            d.style.background = "#ffcccc";
         }
-     }
-    
-    function crBlankNota(){
-        var nn={
-        name: "",
-        nota: "",
-        fe: (new Date()).toISOString().replace(/T/g, ", Time: ").replace(/Z/g, ""),
-        st: {status:"blank"}}
-      //  notas.push(nn);
-    todo.appendChild(crNota(nn))
+
+
+        
+    }
+
+    function crBlankNota() {
+        var nn = {
+            name: "",
+            nota: "",
+            fe: (new Date()).toISOString().replace(/T/g, ", Time: ").replace(/Z/g, ""),
+            st: {
+                status: "blank"
+            }
+        }
+        //  notas.push(nn);
+        todo.appendChild(crNota(nn))
 
     }
+
     function crNota(n) {
         var d = document.createElement('div');
-        d.nota=n;
+        d.nota = n;
         d.name = JSON.stringify(n);
         d.setAttribute("class", "cd");
-   
-        
-        var se=document.createElement('select');
-        se.setAttribute("class","cse");
-       
-        se.setAttribute("oninput",'setSt(this)');
-        se.innerHTML="<option>blank</option>"+
-        "<option>pending</option>"+
-        "<option>done</option>"+
-        "<option>coming</option>"+
-        "<option>delete</option>";
-        if(n.st.status=="")n.st.status="blank";
-         se.value=n.st.status;
-         d.appendChild(se);
-         updateStatus(d);
-         
-      var bd=document.createElement('button');
-       bd.setAttribute("class","cbd");
-        bd.innerHTML="Read";
-        bd.setAttribute("onclick",'speak(this)');
-        d.appendChild(bd);
-        
-        
-      
-        
+
+
+        var se = document.createElement('select');
+        se.setAttribute("class", "cse");
+
+        se.setAttribute("oninput", 'setSt(this)');
+        se.innerHTML = "<option>blank</option>" +
+            "<option>pending</option>" +
+            "<option>done</option>" +
+            "<option>coming</option>" +
+            "<option>Show Trash</option>" +
+            "<option>delete</option>";
+        if (n.st.status == "") n.st.status = "blank";
+        se.value = n.st.status;
+        d.appendChild(se);
+        updateStatus(d);
+
         t = document.createElement('p');
 
         t.innerHTML = n.fe;
         a = document.createElement('textarea');
         t.setAttribute("class", "ct");
+        t.setAttribute("onclick", 'speak(this)');
         a.value = n.nota;
         a.oninput = function() {
             active = true
@@ -223,23 +245,23 @@ var speechRecognizer;
             n.nota = this.value;
             active = false;
             saveNotas();
-           // alert("Nota has been saved...");
+            // alert("Nota has been saved...");
         }
         d.appendChild(t);
         d.appendChild(a);
-        var m=document.createElement("button");
-        m.innerHTML="&#127908;" 
-        m.style.background="0f0";
-        m.style.background="#0f0";
-        m.st=false;
-       m.setAttribute("onclick",'inicRec(this)');
+        var m = document.createElement("button");
+        m.innerHTML = "&#127908;"
+        m.style.background = "0f0";
+        m.style.background = "#0f0";
+        m.st = false;
+        m.setAttribute("onclick", 'inicRec(this)');
         m.setAttribute("class", "cm");
-     
-        
+
+
         d.appendChild(m);
         a.setAttribute("class", "ca");
-        
-    
+
+
         return d;
 
     }
@@ -261,101 +283,119 @@ var speechRecognizer;
     }
 
 
-function inicRec(e){
-  //  alert(e.style.background);alert(e.st);
-           var a=e.parentNode.getElementsByTagName("textarea")[0];
-     if (!e.st) {
-         e.style.background = "rgb(250,0,0)";
-         e.st=true;
-        startvoice(a);
-     }
-     else{
-         e.style.background = "rgb(0,250,0)";
-         e.st=false;
-         a.onblur()
-         try{
-         speechRecognizer.stop();}
-         catch(ee){alert(ee)}
-         
-     }
-    
-   
-    
-}
+    function inicRec(e) {
+        //  alert(e.style.background);alert(e.st);
+        var a = e.parentNode.getElementsByTagName("textarea")[0];
+        if (!e.st) {
+            e.style.background = "rgb(250,0,0)";
+            e.st = true;
+            startvoice(a);
+        } else {
+            e.style.background = "rgb(0,250,0)";
+            e.st = false;
+            a.onblur()
+            try {
+                speechRecognizer.stop();
+            } catch (ee) {
+                alert(ee)
+            }
+
+        }
+
+
+
+    }
+
     function startvoice(a) {
-       // var a=e.parentNode.getElementsByTagName("textarea")[0];
-        var b=a.parentNode.getElementsByTagName("button")[1];
-      
-try{
- 
-             speechRecognizer.start();
-                var ac="",rep=0;
-             var finalTranscripts = "";
-             speechRecognizer.onspeechend = function() {
-                 b.style.background ="#f00"
-                 setTimeout(function() {
-                     if (b.st) {//alert('onspeechend')
-                     
-                           if(ac!=""){
-                               
-                         ac=ac.charAt(0).toUpperCase() + ac.slice(1)      
-                        a.value+=ac+". ";
-                        ac=a.value;
-                        ac="";
-                           }
-                         bexcomando = false;
-                    //     speechRecognizer.start();
+        // var a=e.parentNode.getElementsByTagName("textarea")[0];
+        var b = a.parentNode.getElementsByTagName("button")[0];
 
-                     } else{ speechRecognizer.stop();b.style.background ="#0f0"}
-                 }, 10)
-             }
+        try {
 
-             speechRecognizer.onend = function() {
-                 b.style.background ="#0f0";
-                 setTimeout(function() {
-                     if (b.st) {
-                    rep++;
-                         
-                        if(rep>2){ a.value+="\n\n";rep=0;}
-                         ac="";
-                         bexcomando = false;
-                         speechRecognizer.start();b.style.background ="#f00"
+            speechRecognizer.start();
+            var ac = "",
+                rep = 0;
+            var finalTranscripts = "";
+            speechRecognizer.onspeechend = function() {
+                b.style.background = "#f00";
+                temp.style.display="none";
+                setTimeout(function() {
+                    if (b.st) { //alert('onspeechend')
 
+                        if (ac != "") {
 
-                     } else{ speechRecognizer.stop();b.style.background ="#0f0"}
+                            ac = ac.charAt(0).toUpperCase() + ac.slice(1)
+                            a.value += ac + ". ";
+                            ac = a.value;
+                            ac = "";
 
-                 }, 10)
-             };
+                        }
+                        bexcomando = false;
+                        //     speechRecognizer.start();
 
-             speechRecognizer.onresult = function() {  
-                 comando  =  event.results[0][0].transcript;  
+                    } else {
+                        speechRecognizer.stop();
+                        b.style.background = "#0f0"
+                    }
+                }, 10)
+            }
 
-                 ac=comando; // a.value=comando;//exComando(comando)  if (e.st)
-     
-             }
-             speechRecognizer.onerror = function(event) {};
+            speechRecognizer.onend = function() {
+                b.style.background = "#0f0";
+                temp.style.display="none";
+                setTimeout(function() {
+                    if (b.st) {
+                        rep++;
 
- 
-}
-	     catch(e){alert(e)};
-
-     }
-  
-   
+                        if (rep > 2) {
+                            a.value += "\n\n";
+                            rep = 0;
+                        }
+                        ac = "";
+                        bexcomando = false;
+                        speechRecognizer.start();
+                        b.style.background = "#f00";
+                        temp.style.display="none";
 
 
-function speak(e){
-     var a=e.parentNode.getElementsByTagName("textarea")[0];
-     var tx=a.value;
- 
+                    } else {
+                        temp.style.display="none";
+                        speechRecognizer.stop();
+                        b.style.background = "#0f0"
+                    }
+
+                }, 10)
+            };
+
+            speechRecognizer.onresult = function() {
+                comando = event.results[0][0].transcript;
+                temp.style.display="block";
+                //if(comando.indexOf("coma coma")>-1)
+                temp.value=comando;
+                ac = comando; // a.value=comando;//exComando(comando)  if (e.st)
+
+            }
+            speechRecognizer.onerror = function(event) {};
+
+
+        } catch (e) {
+            alert(e)
+        };
+
+    }
+
+
+
+
+    function speak(e) {
+        var a = e.parentNode.getElementsByTagName("textarea")[0];
+        var tx = a.value;
 let url = 'https://api.voicerss.org/';
 let api = '3e695fb424c44aa7a4cf6f59df08ba04';//c867cf4d247144509383092e62d8dbf1
     var l=`${url}?key=${api}&hl=es-mx&v=Silvia&src=${tx}&f=48khz_16bit_stereo`;
-           new Audio(l).play();
-   
-}
+        new Audio(l).play();
 
-
+    }
 </script>
 
 </html>
