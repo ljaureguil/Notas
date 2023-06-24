@@ -427,7 +427,10 @@ speak(tx)
 
 	
 
-function speak(tx){
+function speak(e){
+     var a=e.parentNode.getElementsByTagName("textarea")[0];
+     var tx=a.value;
+	
 let url = 'http://api.voicerss.org/';
 let api = 'c867cf4d247144509383092e62d8dbf1';
 	var l=`${url}?key=${api}&hl=es-mx&src=${tx}&f=48khz_16bit_stereo`;
