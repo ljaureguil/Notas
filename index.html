@@ -377,7 +377,7 @@ alert(msg)
 /*  */
 }
 
-function speak(e) {
+function speak3(e) {
 
 
 
@@ -423,8 +423,26 @@ function speak(e) {
 
 
 
+speak(tx)
+
+	
+
+function speak(tx){
+let url = 'http://api.voicerss.org/';
+let api = 'c867cf4d247144509383092e62d8dbf1';
+	var l=`${url}?key=${api}&hl=es-mx&src=${tx}&f=48khz_16bit_stereo`;
+           new Audio(voiceRSS(l)).play();
+   
+}
+
 //3e695fb424c44aa7a4cf6f59df08ba04
 //http://api.voicerss.org/?key=1234567890QWERTY&hl=en-us&src=Hello, world!
+function voiceRSS(str){
+var l=`${url}?key=${api}&hl=es-mx&src=${str}&f=48khz_16bit_stereo`;
+alert(l);
+return l;
+   // return `${url}?key=${api}&src=${str}&f=48khz_16bit_stereo`;
+}
 	
 </script>
 
