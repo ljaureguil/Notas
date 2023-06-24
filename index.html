@@ -340,113 +340,22 @@ try{
 	     catch(e){alert(e)};
 
      }
-     
-   //  app.TextToSpeech( "DroidScript is awesome!", 1.0, 1.0 );
-     
-     
-     
-     
-/*
-if (!"speechSynthesis" in window) {
-    alert("Sorry, your browser doesn't support text to speech!");
-   // return;
-   
-   }
-   
-   */
-   
-   
-function speak2(e) {
-
-alert(e);
-var a=e.parentNode.getElementsByTagName("textarea")[0];
-var msg=a.value
-alert(msg)
- //   app.TextToSpeech( msg, 1.0, 1.0 );
-
-
-  const utter = new SpeechSynthesisUtterance();
-   utter.lang = 'es-ES';
-  utter.rate = 1.0; // speed: 0.1-10
-  utter.volume = 1.0; // 0-1
-  utter.pitch = 0.5; // 0 (low) - 2 (high)
-  utter.voice = speechSynthesis.getVoices()[0];
-  utter.text = msg;
-  speechSynthesis.speak(utter);
   
-/*  */
-}
+   
 
-function speak3(e) {
-
-
-
-
-
-
-
-	
-    /**
-     * This function takes a string of text and converts it to speech in Spanish.
-     * 
-     * Parameters:
-     * text (string): The text to be converted to speech
-     * 
-     * Returns:
-     * None
-     */
-
-	
-     var a=e.parentNode.getElementsByTagName("textarea")[0];
-     var text=a.value;
-
-
-    try {
-        // Check if the browser supports the SpeechSynthesis API
-        if (!'speechSynthesis' in window) {
-            throw new Error("SpeechSynthesis API not supported by this browser");
-        }
-        
-        // Create a new SpeechSynthesisUtterance object
-        const utterance = new SpeechSynthesisUtterance(text);
-        alert(text)
-        // Set the language to Spanish
-        utterance.lang = 'es-MX | en-US';
-        
-        // Speak the text
-        window.speechSynthesis.speak(utterance);
-    } catch (error) {
-        // Log the error
-        console.error(error);
-    }
-}
-
-
-
-speak(tx)
-
-	
 
 function speak(e){
      var a=e.parentNode.getElementsByTagName("textarea")[0];
      var tx=a.value;
-	
-let url = 'http://api.voicerss.org/';
-let api = 'c867cf4d247144509383092e62d8dbf1';
-	var l=`${url}?key=${api}&hl=es-mx&src=${tx}&f=48khz_16bit_stereo`;
-           new Audio(voiceRSS(l)).play();
+ 
+let url = 'https://api.voicerss.org/';
+let api = '3e695fb424c44aa7a4cf6f59df08ba04';//c867cf4d247144509383092e62d8dbf1
+    var l=`${url}?key=${api}&hl=es-mx&v=Silvia&src=${tx}&f=48khz_16bit_stereo`;
+           new Audio(l).play();
    
 }
 
-//3e695fb424c44aa7a4cf6f59df08ba04
-//http://api.voicerss.org/?key=1234567890QWERTY&hl=en-us&src=Hello, world!
-function voiceRSS(str){
-var l=`${url}?key=${api}&hl=es-mx&src=${str}&f=48khz_16bit_stereo`;
-alert(l);
-return l;
-   // return `${url}?key=${api}&src=${str}&f=48khz_16bit_stereo`;
-}
-	
+
 </script>
 
 </html>
