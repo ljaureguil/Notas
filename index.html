@@ -201,9 +201,10 @@ var speechRecognizer;
          d.appendChild(se);
          updateStatus(d);
          
-      var bd=document.createElement('p');
+      var bd=document.createElement('button');
        bd.setAttribute("class","cbd");
         bd.innerHTML="Read";
+        bd.setAttribute("onclick",'speak(this)');
         d.appendChild(bd);
         
         
@@ -238,7 +239,7 @@ var speechRecognizer;
         d.appendChild(m);
         a.setAttribute("class", "ca");
         
-      bd.onclick='speak(this)'
+    
         return d;
 
     }
@@ -283,7 +284,7 @@ function inicRec(e){
 }
     function startvoice(a) {
        // var a=e.parentNode.getElementsByTagName("textarea")[0];
-        var b=a.parentNode.getElementsByTagName("button")[0];
+        var b=a.parentNode.getElementsByTagName("button")[1];
       
 try{
  
@@ -355,7 +356,7 @@ if (!"speechSynthesis" in window) {
    */
    
    
-function speak(e) {
+function speak2(e) {
 
 alert(e);
 var a=e.parentNode.getElementsByTagName("textarea")[0];
@@ -365,6 +366,7 @@ alert(msg)
 
 
   const utter = new SpeechSynthesisUtterance();
+   utter.lang = 'es-ES';
   utter.rate = 1.0; // speed: 0.1-10
   utter.volume = 1.0; // 0-1
   utter.pitch = 0.5; // 0 (low) - 2 (high)
@@ -375,7 +377,39 @@ alert(msg)
 /*  */
 }
 
+function speak(e) {
+    /**
+     * This function takes a string of text and converts it to speech in Spanish.
+     * 
+     * Parameters:
+     * text (string): The text to be converted to speech
+     * 
+     * Returns:
+     * None
+     */
+     var a=e.parentNode.getElementsByTagName("textarea")[0];
+     var text=a.value;
 
+
+    try {
+        // Check if the browser supports the SpeechSynthesis API
+        if (!'speechSynthesis' in window) {
+            throw new Error("SpeechSynthesis API not supported by this browser");
+        }
+        
+        // Create a new SpeechSynthesisUtterance object
+        const utterance = new SpeechSynthesisUtterance(text);
+        alert(text)
+        // Set the language to Spanish
+        utterance.lang = 'es-MX | en-US';
+        
+        // Speak the text
+        window.speechSynthesis.speak(utterance);
+    } catch (error) {
+        // Log the error
+        console.error(error);
+    }
+}
 
 </script>
 
