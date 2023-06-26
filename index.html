@@ -25,7 +25,7 @@
         font-size: 20px;
         color: white;
         font-weight: bold;
-        background: black;
+        background: blue;
         border-radius: 10px;
         text-align: center;
         padding: 5px;
@@ -168,35 +168,40 @@ var localtrash=localStorage.getItem("notastrash");
 
     function setSt(s) {
         var v = s.value;
+        a=s.parentNode.getElementsByTagName("textarea")[0];
         if (v === "delete") {
+         
             if (confirm("Are you sure you want to delete this note?")) {
-                var i = s.parentNode.nota;
-                //   alert(notas.indexOf(i))
-                notas.splice(notas.indexOf(i), 1)
-                todo.removeChild(s.parentNode);
+                var n = s.parentNode.nota;
                 var o=[];
                 if(localtrash!=null) o=JSON.parse(localtrash);
-                o.push(i);
-                
-                
+                o.push(n);
+
+
+                notas.splice(notas.indexOf(n), 1)
+                todo.removeChild(s.parentNode);
+  
                 localStorage.setItem("notastrash",JSON.stringify(o));
-                alert(JSON.stringify(localStorage.getItem("notastrash")));
+                alert(localStorage.getItem("notastrash"));
             
                 }
 
         }
-                if (v === "pShow Trash") {
-           // s.parentNode.style.background = "#ccffcc";
+                if (v === "Show Trash") {
+                     alert(localStorage.getItem("notastrash"));
         }
         if (v === "pending") {
-            s.parentNode.style.background = "#ccffcc";
+             a.style.background="#ccffcc";// s.parentNode.style.background = "#ccffcc";
         }
         if (v === "coming") {
-            s.parentNode.style.background = "#ccccff";
+            a.style.background="#ff9090"; // s.parentNode.style.background = "#ccccff";
         }
         if (v === "done") {
-            s.parentNode.style.background = "#ffcccc";
+             a.style.background="#ccccff"; //s.parentNode.style.background = "#ffcccc";
         }
+         if (v === "blank") {
+             a.style.background="#ffffff"; //s.parentNode.style.background = "#ffcccc";
+        }       
         s.parentNode.nota.st.status = v;
 
         saveNotas();
@@ -204,14 +209,17 @@ var localtrash=localStorage.getItem("notastrash");
 
     function updateStatus(d) {
         v = d.nota.st.status;
+        a=d.getElementsByTagName("textarea")[0];
+        
+        var a=d.getElementsByTagName("textarea")[0];
         if (v === "pending") {
-            d.style.background = "#ccffcc";
+            a.style.background = "#ccffcc";
         }
         if (v === "coming") {
-            d.style.background = "#ccccff";
+            a.style.background = "#ccccff";
         }
         if (v === "done") {
-            d.style.background = "#ffcccc";
+            a.style.background = "#ffcccc";
         }
 
 
@@ -252,7 +260,7 @@ var localtrash=localStorage.getItem("notastrash");
         if (n.st.status == "") n.st.status = "blank";
         se.value = n.st.status;
         d.appendChild(se);
-        updateStatus(d);
+ 
 
         t = document.createElement('p');
 
@@ -283,7 +291,7 @@ var localtrash=localStorage.getItem("notastrash");
 
         d.appendChild(m);
         a.setAttribute("class", "ca");
-
+       updateStatus(d);
 
         return d;
 
@@ -412,7 +420,7 @@ var localtrash=localStorage.getItem("notastrash");
         var tx = a.value;
 let url = 'https://api.voicerss.org/';
 let api = '3e695fb424c44aa7a4cf6f59df08ba04';//c867cf4d247144509383092e62d8dbf1
-    var l=`${url}?key=${api}&hl=es-mx&v=Teresa&src=${tx}&f=48khz_16bit_stereo`;
+    var l=`${url}?key=${api}&hl=es-mx&v=Jose&src=${tx}&f=48khz_16bit_stereo`;
         new Audio(l).play();
 
     }
