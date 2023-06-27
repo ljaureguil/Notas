@@ -9,12 +9,37 @@
 <style>
     #todo {
         background: url(https://img.freepik.com/free-vector/clear-water-drops-dew-dripping-rain-droplets_107791-12117.jpg);
-       
+ 
         overflow: auto;
         width: 100%;
         height: 100%;
         padding: 5px;
+  
     }
+     #dtrash {
+        background:  url(https://wallpaperaccess.com/full/5543906.jpg);
+        position:absolute;
+        left:110%;
+        top:0;
+        overflow: auto;
+        width: 100%;
+        height: 100%;
+        padding: 5px;
+        transition: left .5s ease-out;
+    }
+    #dwork {
+        background:  url(https://wallpaperaccess.com/full/5543906.jpg);
+        position:absolute;
+        left:-110%;
+        top:0;
+        overflow: auto;
+        width: 100%;
+        height: 100%;
+        padding: 5px;
+        transition: left .5s ease-out;
+    }   
+    
+    
     .cd {
         text-align: center;
         margin: 5px;
@@ -48,11 +73,21 @@
         right: 4%;
         color: white;
         background: red;
-        width: 25px;
-        height: 25px;
+ 
         border-radius: 100px;
         font-weight: bold;
-        font-size: 20px;
+        font-size: 18px;
+    }  
+        #bwork {
+        position: absolute;
+        top: 2%;
+        left: 4%;
+        color: white;
+        background: red;
+ 
+        border-radius: 100px;
+        font-weight: bold;
+        font-size: 18px;
     }  
     #btoweb {
         position: absolute;
@@ -64,6 +99,7 @@
         border-radius: 100px;
         font-weight: bold;
         font-size: 14px;
+        display:none;
     }
     .cbd {
         margin: 15px;
@@ -95,21 +131,35 @@
         box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06), 0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086), 0 100px 80px rgba(0, 0, 0, 0.12);
        opacity:.85;
     }
+    #world{
+        width:100%;
+        height:100%;
+        overflow-y:auto;
+    
+        
+        
+    }
     
 </style>
+<div id="world">
+<div id="todo"></div>
 
-<div id="todo">
-
-</div>
+<div id="dtrash"></div>
+<div id="dwork"></div>
 <textarea id="temp" value=""></textarea>
 <button id="btoweb" onclick="webNotas()">Web</button>
-<button id="plus" onclick="crBlankNota()">+</button>
-
+<button id="plus" onclick="showTrash();">Show Trash</button>
+<button id="bwork" onclick="showWork();">Show Work</button>
+</div>
 <script>
+dtrash.style.left="110%";
+dwork.style.left==="-110%";
 //localStorage.removeItem("notastrash");
 var li=localStorage.getItem("link");
 var localtrash=localStorage.getItem("trash");
-
+if(localtrash!=null) localtrash=JSON.parse(localtrash);
+else localtrash=[];
+var audio= new Audio();
 
     //   app.TextToSpeech( "DroidScript is awesome!", 1.0, 1.0 );
     var speechRecognizer;
@@ -127,7 +177,7 @@ var localtrash=localStorage.getItem("trash");
     var notas;
     //localStorage.removeItem("notas")
     var ns = localStorage.getItem("notas");
-
+   
     if (ns != null) notas = JSON.parse(ns)
     else notas = [{
         name: "",
@@ -137,6 +187,7 @@ var localtrash=localStorage.getItem("trash");
             status: "blank"
         }
     }];
+    
     if (notas[notas.length - 1].nota != "") notas.push({
         name: "",
         nota: "",
@@ -146,6 +197,26 @@ var localtrash=localStorage.getItem("trash");
         }
     })
     //  alert(JSON.stringify(notas));
+ var nw= localStorage.getItem("work");
+    if (nw != null) work = JSON.parse(nw)
+    else work = [{
+        name: "",
+        nota: "",
+        fe: "",
+        st: {
+            status: "blank"
+        }
+    }];
+    if (work[work.length - 1].nota != "") work.push({
+        name: "",
+        nota: "",
+        fe: (new Date()).toISOString().replace(/T/g, ", Time: ").replace(/Z/g, ""),
+        st: {
+            status: "blank"
+        }
+    })
+ 
+ 
 
     setUpNotas();
 
@@ -156,6 +227,19 @@ var localtrash=localStorage.getItem("trash");
             todo.appendChild(d);
 
         }
+        
+            for (var i = 0; i < work.length; i++) {
+            var d = crNota(work[i]);
+            dwork.appendChild(d);
+
+        }    
+  
+          for (var i = 0; i < localtrash.length; i++) {
+              localtrash[i].st.status="deleted";
+            var d = crNota(localtrash[i]);
+            dtrash.appendChild(d);
+
+        }   
 
     }
 
@@ -165,7 +249,9 @@ var localtrash=localStorage.getItem("trash");
     }
 
     function saveNotas() {
+        localStorage.setItem("work", JSON.stringify(work));
         localStorage.setItem("notas", JSON.stringify(notas));
+       crBlankNota();
     }
 
     function setSt(s) {
@@ -176,15 +262,16 @@ var localtrash=localStorage.getItem("trash");
          
             if (confirm("Are you sure you want to delete this note?")) {
                 var n = s.parentNode.nota;
-                var o=[];
-                if(localtrash!=null) o=JSON.parse(localtrash);
-                o.push(n);
-
-
-                notas.splice(notas.indexOf(n), 1)
-                todo.removeChild(s.parentNode);
-  
-                localStorage.setItem("trash",JSON.stringify(o));
+                n.st.status="deleted";
+                
+                localtrash.push(n);
+               
+                notas.splice(notas.indexOf(n), 1);
+                var nt=crNota(n);
+                dtrash.appendChild(nt);
+                todo.removeChild(s.parentNode)
+     
+                localStorage.setItem("trash",JSON.stringify(localtrash));
                 alert(localStorage.getItem("trash"));
             
                 }
@@ -243,11 +330,22 @@ var localtrash=localStorage.getItem("trash");
             }
         }
         //  notas.push(nn);
+        if(dwork.style.left="0%"){
+          
+                if(work[work.length-1].nota=="" || work[work.length-1].nota.length<3){ ;}//alert("There is one already in Blank")
+        else{
+              dwork.appendChild(crNota(nn));
+              work.push(nn);
+        }         
+            
+        }
+        else{
         
-                if(notas[notas.length-1].nota=="") alert("There is one already in Blank");
+                if(notas[notas.length-1].nota=="" || notas[notas.length-1].nota.length<3){ ;}//alert("There is one already in Blank")
         else{
               todo.appendChild(crNota(nn));
               notas.push(nn);
+        }
         }
      
     }
@@ -269,8 +367,9 @@ var localtrash=localStorage.getItem("trash");
             "<option>coming</option>" +
             "<option>Show Trash</option>" +
             "<option>delete</option>";
+            se.value = n.st.status;
         if (n.st.status == "") n.st.status = "blank";
-        se.value = n.st.status;
+      
         d.appendChild(se);
  
 
@@ -294,15 +393,23 @@ var localtrash=localStorage.getItem("trash");
         d.appendChild(t);
         d.appendChild(a);
         var m = document.createElement("button");
-        m.innerHTML = "&#127908;"
-        m.style.background = "0f0";
+       if(n.st.status!="deleted"){
+           m.innerHTML = "&#127908;";
+       
         m.style.background = "#0f0";
         m.st = false;
         m.setAttribute("onclick", 'inicRec(this)');
-        m.setAttribute("class", "cm");
-
-
-        d.appendChild(m);
+       }
+       else {
+           m.innerHTML="DELETE";
+        m.style.background = "#f00";
+        m.style.color="white";
+        m.st = false;
+        m.setAttribute("onclick", 'delNota(this)');
+      }
+    m.setAttribute("class", "cm");
+    
+       d.appendChild(m);
         a.setAttribute("class", "ca");
        updateStatus(d);
 
@@ -434,7 +541,9 @@ var localtrash=localStorage.getItem("trash");
 let url = 'https://api.voicerss.org/';
 let api = '3e695fb424c44aa7a4cf6f59df08ba04';//c867cf4d247144509383092e62d8dbf1
     var l=`${url}?key=${api}&hl=es-mx&v=Jose&src=${tx}&f=48khz_16bit_stereo`;
-        new Audio(l).play();
+       // new Audio(l).play();
+       audio.src=l;
+       audio.play();
 
     }
 
@@ -499,6 +608,54 @@ let api = '3e695fb424c44aa7a4cf6f59df08ba04';//c867cf4d247144509383092e62d8dbf1
             if (callback != undefined) callback(xhttp.responseText);
             return xhttp.responseText
         }
+        function showTrash(){
+    
+            if(dtrash.style.left==="110%"){
+                plus.innerHTML="Show Notes";
+   
+            dtrash.style.left="0%";
+            }
+            else{
+                plus.innerHTML="Show Trash";
+
+            dtrash.style.left="110%";
+                
+            }
+         }
+         
+              function showWork(){
+   
+            if(dwork.style.left==="-110%"){
+                bwork.innerHTML="Show Notes";
+   
+            dwork.style.left="0%";
+            }
+            else{
+                bwork.innerHTML="Show Work";
+
+            dwork.style.left="-110%";
+                
+            }
+         }  
+         
+         function delNota(e){
+             var n=e.parentNode.nota;
+             
+             var i=localtrash.indexOf(n)
+             if(i>-1){
+                 if(confirm("Are you sure you want to Delete nota completly?")){ 
+                dtrash.removeChild(e.parentNode);
+                 localtrash.splice(i,1);
+                 localStorage.setItem("trash",JSON.stringify(localtrash));
+                 window.location.reload();
+                
+                  }
+             }
+             
+             
+         }
+         
+         
 
 </script>
 
