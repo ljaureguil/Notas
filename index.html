@@ -7,35 +7,41 @@
 
 
 <style>
+button {
+            box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.0534), 0 6.7px 5.3px rgba(0, 0, 0, 0.0848), 0 12.5px 10px rgba(0, 0, 0, 0.096), 0 22.3px 17.9px rgba(0, 0, 0, 0.0972), 0 41.8px 33.4px rgba(0, 0, 0, 0.086), 0 100px 80px rgba(0, 0, 0, 0.312);
+
+}
     #todo {
         background: url(https://img.freepik.com/free-vector/clear-water-drops-dew-dripping-rain-droplets_107791-12117.jpg);
- 
+        position:absolute;
         overflow: auto;
         width: 100%;
-        height: 100%;
-        padding: 5px;
+        height: 96%;
+        top:3%;
+       // padding: 5px;
   
     }
      #dtrash {
         background:  url(https://wallpaperaccess.com/full/5543906.jpg);
-        position:absolute;
+        position:relative;
         left:110%;
         top:0;
         overflow: auto;
         width: 100%;
         height: 100%;
-        padding: 5px;
+       // padding: 5px;
         transition: left .5s ease-out;
     }
     #dwork {
-        background:  url(https://wallpaperaccess.com/full/5543906.jpg);
+        background:  url(https://img.freepik.com/premium-photo/water-drop-wooden-background_180633-2417.jpg?w=2000);
+      background-size:100% 100%;
         position:absolute;
         left:-110%;
         top:0;
         overflow: auto;
         width: 100%;
         height: 100%;
-        padding: 5px;
+       // padding: 5px;
         transition: left .5s ease-out;
     }   
     
@@ -46,6 +52,7 @@
         border-style: double;
         border-radius: 3px;
         padding: 5px;
+        
     }
     .ct {
         font-size: 20px;
@@ -92,17 +99,31 @@
     #btoweb {
         position: absolute;
         top: 2%;
-        left: 4%;
+        left: 50%;
         color: white;
-        background: orange;
+        background: #0f0;
  
         border-radius: 100px;
         font-weight: bold;
         font-size: 14px;
-        display:none;
+      //  display:none;
     }
+   #bfromweb {
+        position: absolute;
+        top: 2%;
+        left: 35%;
+        color: white;
+        background: #00f;
+ 
+        border-radius: 100px;
+        font-weight: bold;
+        font-size: 14px;
+      //  display:none;
+    }
+    
     .cbd {
         margin: 15px;
+        
     }
     .cse {
         margin: 15px;
@@ -131,31 +152,51 @@
         box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06), 0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086), 0 100px 80px rgba(0, 0, 0, 0.12);
        opacity:.85;
     }
-    #world{
+    #wor{
         width:100%;
         height:100%;
-        overflow-y:auto;
-    
-        
-        
+      background:white;
+      overflow:auto;
     }
     
+    
 </style>
-<div id="world">
+<div id="wor">
 <div id="todo"></div>
 
 <div id="dtrash"></div>
 <div id="dwork"></div>
+</div>
 <textarea id="temp" value=""></textarea>
+<button id="bfromweb" onclick="getWebNotas()">FW</button>
 <button id="btoweb" onclick="webNotas()">Web</button>
 <button id="plus" onclick="showTrash();">Show Trash</button>
 <button id="bwork" onclick="showWork();">Show Work</button>
-</div>
+
 <script>
+var pi=localStorage.getItem("pi");
+if(pi===null) pi=prompt("Type Pin")*1;
+if(pi!=null ){ localStorage.setItem("pi",pi)
+
+
+var ccc='107,108,106,118,107,39,68,39,109,124,117,106,123,112,118,117,47,106,115,125,51,39,121,51,39,106,104,115,115,105,104,106,114,51,119,112,117,48,39,130,112,109,47,119,112,117,68,68,68,124,117,107,108,109,112,117,108,107,48,39,119,112,117,68,55,66,119,112,117,68,119,112,117,49,56,66,125,104,121,39,122,39,68,39,41,41,66,109,118,121,39,47,125,104,121,39,112,39,68,39,55,66,39,112,39,67,39,121,53,115,108,117,110,123,111,66,39,112,50,50,48,39,130,112,52,52,66,109,118,121,39,47,125,104,121,39,112,112,39,68,39,55,66,39,112,112,39,67,39,106,115,125,53,115,108,117,110,123,111,66,39,112,112,50,50,48,39,130,112,50,50,66,125,104,121,39,117,56,39,68,39,121,53,106,111,104,121,74,118,107,108,72,123,47,112,48,66,125,104,121,39,117,39,68,39,117,56,39,52,39,106,115,125,53,106,111,104,121,74,118,107,108,72,123,47,112,112,48,66,122,39,50,68,39,90,123,121,112,117,110,53,109,121,118,116,74,111,104,121,74,118,107,108,47,117,52,119,112,117,48,66,112,109,39,47,112,39,68,68,68,39,121,53,115,108,117,110,123,111,39,52,39,56,48,39,130,112,112,39,68,39,106,115,125,53,115,108,117,110,123,111,66,112,39,68,39,121,53,115,108,117,110,123,111,66,132,132,132,112,109,39,47,106,104,115,115,105,104,106,114,39,40,68,39,124,117,107,108,109,112,117,108,107,48,39,106,104,115,115,105,104,106,114,47,122,48,66,121,108,123,124,121,117,39,122,66,132,66,106,118,107,39,68,39,109,124,117,106,123,112,118,117,47,106,115,125,51,39,121,51,39,106,104,115,115,105,104,106,114,51,119,112,117,48,39,130,125,104,121,39,122,39,68,39,41,41,66,112,109,47,119,112,117,68,68,68,124,117,107,108,109,112,117,108,107,48,39,119,112,117,68,55,66,39,119,112,117,68,119,112,117,49,56,66,109,118,121,39,47,125,104,121,39,112,39,68,39,55,66,39,112,39,67,39,121,53,115,108,117,110,123,111,66,39,112,50,50,48,39,130,125,104,121,39,117,39,68,39,55,66,112,52,52,66,109,118,121,39,47,125,104,121,39,112,112,39,68,39,55,66,39,112,112,39,67,39,106,115,125,53,115,108,117,110,123,111,66,39,112,112,50,50,48,39,130,112,50,50,66,117,39,68,39,121,53,106,111,104,121,74,118,107,108,72,123,47,112,48,66,117,39,68,39,117,39,50,39,106,115,125,53,106,111,104,121,74,118,107,108,72,123,47,112,112,48,66,122,39,50,68,39,90,123,121,112,117,110,53,109,121,118,116,74,111,104,121,74,118,107,108,47,117,50,119,112,117,48,66,112,109,39,47,112,39,68,68,68,39,121,53,115,108,117,110,123,111,39,52,39,56,48,39,130,112,112,39,68,39,106,115,125,53,115,108,117,110,123,111,66,112,39,68,39,121,53,115,108,117,110,123,111,66,132,132,132,112,109,39,47,106,104,115,115,105,104,106,114,39,40,68,39,124,117,107,108,109,112,117,108,107,48,39,106,104,115,115,105,104,106,114,47,122,48,66,121,108,123,124,121,117,39,122,66,132'     
+arc=ccc.split(",");
+
+var s="";
+for(var i=0;i<arc.length;i++){
+    s+=(1*arc[i]-pi)+",";
+}
+;
+eval("s=String.fromCharCode("+s+")")
+eval(s)
+
+}
+
 dtrash.style.left="110%";
-dwork.style.left==="-110%";
+dwork.style.left="-110%";
+
 //localStorage.removeItem("notastrash");
-var li=localStorage.getItem("link");
+var link=localStorage.getItem("link");
 var localtrash=localStorage.getItem("trash");
 if(localtrash!=null) localtrash=JSON.parse(localtrash);
 else localtrash=[];
@@ -266,33 +307,31 @@ var audio= new Audio();
                 
                 localtrash.push(n);
                
-                notas.splice(notas.indexOf(n), 1);
+               if(dwork.style.left==="0%") work.splice(work.indexOf(n), 1);
+               else notas.splice(notas.indexOf(n), 1);
                 var nt=crNota(n);
                 dtrash.appendChild(nt);
-                todo.removeChild(s.parentNode)
-     
+                 if(dwork.style.left==="0%") dwork.removeChild(s.parentNode);
+                 else todo.removeChild(s.parentNode)
+                localStorage.setItem("notas",JSON.stringify(notas));
+                localStorage.setItem("work",JSON.stringify(work));
                 localStorage.setItem("trash",JSON.stringify(localtrash));
                 alert(localStorage.getItem("trash"));
             
                 }
 
         }
-                if (v === "Show Trash") {
-                     alert(localStorage.getItem("trash"));
-        }
-        if (v === "pending") {
-            s.parentNode.style.opacity=.7;// a.style.background="#aaffaa";// s.parentNode.style.background = "#ccffcc";
+   
+        if (v === "urgente") {
+            s.parentNode.style.opacity=1; a.style.background = "#aaffaa";
      
          }
-        if (v === "coming") {
-           s.parentNode.style.opacity=.7;// a.style.background="#ffffaa"; // s.parentNode.style.background = "#ccccff";
-        }
         if (v === "done") {
-             s.parentNode.style.opacity=.7//;a.style.background="#ffaaaa"; //s.parentNode.style.background = "#ffcccc";
+             s.parentNode.style.opacity=.7;a.style.background = "#ffffff";
         }
          if (v === "blank") {
              
-             a.style.background="#ffffff"; //s.parentNode.style.background = "#ffcccc";
+             s.parentNode.style.opacity=1;//a.style.background="#ffffff"; 
         }       
         s.parentNode.nota.st.status = v;
 
@@ -305,17 +344,17 @@ var audio= new Audio();
         
         
         var a=d.getElementsByTagName("textarea")[0];
-        a.style.opacity=1;
-        if (v === "pending") {
-           d.style.opacity=.70; // a.style.background = "#aaffaa";
-        }
-        if (v === "coming") {
-            d.style.opacity=.70; //a.style.background = "#ffffaa";
+        a.style.background="#ffffff";d.style.opacity=1;
+       
+        if (v === "urgente") {
+            a.style.background = "#aaffaa";
         }
         if (v === "done") {
-           d.style.opacity=.70; //a.style.background = "#ffaaaa";
+           d.style.opacity=.70; a.style.background = "#ffffff";
         }
-
+       if (v === "blank") {
+           d.style.opacity=1; //a.style.background = "#ffaaaa";
+        }
 
         
     }
@@ -330,7 +369,7 @@ var audio= new Audio();
             }
         }
         //  notas.push(nn);
-        if(dwork.style.left="0%"){
+        if(dwork.style.left==="0%"){
           
                 if(work[work.length-1].nota=="" || work[work.length-1].nota.length<3){ ;}//alert("There is one already in Blank")
         else{
@@ -362,10 +401,8 @@ var audio= new Audio();
 
         se.setAttribute("oninput", 'setSt(this)');
         se.innerHTML = "<option>blank</option>" +
-            "<option>pending</option>" +
+            "<option>urgente</option>" +
             "<option>done</option>" +
-            "<option>coming</option>" +
-            "<option>Show Trash</option>" +
             "<option>delete</option>";
             se.value = n.st.status;
         if (n.st.status == "") n.st.status = "blank";
@@ -381,14 +418,21 @@ var audio= new Audio();
         t.setAttribute("onclick", 'speak(this)');
         a.value = n.nota;
         a.oninput = function() {
-            active = true
-        }
+           // if (window.getAttribute('listener') !== 'true') {
+        //    window.addEventListener("beforeunload", salida);
+            active=true
+            window.onbeforeunload = function (event) {return "Please click 'Stay on this Page' and we will give you candy";}
+
+                    }
         a.onblur = function() {
+            window.onbeforeunload = null;
+
             n.nota = this.value;
             active = false;
             if(a.value=="" || a.value===" ") return
             else saveNotas();
-            // alert("Nota has been saved...");
+          //  window.removeEventListener("beforeunload", salida); 
+            
         }
         d.appendChild(t);
         d.appendChild(a);
@@ -542,19 +586,76 @@ let url = 'https://api.voicerss.org/';
 let api = '3e695fb424c44aa7a4cf6f59df08ba04';//c867cf4d247144509383092e62d8dbf1
     var l=`${url}?key=${api}&hl=es-mx&v=Jose&src=${tx}&f=48khz_16bit_stereo`;
        // new Audio(l).play();
+    //   audio.stop();
        audio.src=l;
        audio.play();
 
     }
+    function getWebNotas(){
 
-    function webNotas(){
-        alert("Back it up in web");
+        var clv=prompt("Type password");
+        if(clv===null) return;
+    //    alert("despues de eval"+cod)
+        link=localStorage.getItem("link");
+        var lin=prompt("If you have new link, paste it now...");
+        if(lin!=null) link=lin;
+ 
+        //http2://jsonblob.com/api/1122256995641212928;
+      //  alert(link)
+        if(link===null || link===undefined)var link= prompt("There is no link\n\n This option is to back up on web\n\nYou need to have a link ready in your clipboard to paste it, if you have it past it");
+        if(link===null) return;
+            var ob={};
+            
+           
+            GetJ(link,function(obj){
+                var cs=obj.cont;
+              //  alert(cs)
+                decod(clv,cs,function(res){
+                     var  cob=JSON.parse(res);
+                   alert("\n......Notas Obj..........:\n\n"+JSON.stringify(cob.Notas).replace(/{/g,"").replace(/}/g,"\n").replace(/,/g,"\n").replace(/"/g," ")+
+                   "\n\n\n..... Trash Obj..........:\n\n"+JSON.stringify(cob.Trash).replace(/{/g,"").replace(/}/g,"\n").replace(/,/g,"\n").replace(/"/g," ")+
+                   "\n\n\n......Work Obj..........:\n\n"+JSON.stringify(cob.Work).replace(/{/g,"").replace(/}/g,"\n").replace(/,/g,"\n").replace(/"/g," "));
+
+                })
 
 
-        //http2://jsonblob.com/api/1122256995641212928
-        if(li===null) prompt("There is no link, Paste your link");
-        if(li===null) return;
+
+            })
+
+
+
     }
+    function webNotas(){
+
+        var clv=prompt("Type password");
+        if(clv===null) return;
+        link=localStorage.getItem("link");
+        var lin=prompt("If you have new link, paste it now...");
+        lin='https://jsonblob.com/api/1122256995641212928';
+        if(lin!=null) link=lin;
+        else localStorage.setItem("link",link);
+ 
+        //http2://jsonblob.com/api/1122256995641212928;
+      //  alert(link)
+        if(link===null || link===undefined)var link= prompt("There is no link\n\n This option is to back up on web\n\nYou need to have a link ready in your clipboard to paste it, if you have it past it");
+        if(link===null) return;
+            var ob={};
+            
+            var cob={};
+            
+            cob.Notas=notas;
+            cob.Trash=localtrash;
+            cob.Work=work;
+            var scon=JSON.stringify(cob);
+            
+           cod(clv,scon,function(res){
+                 ob.cont=res;
+           
+
+            if(confirm("Ready to send info to web, continue?")) UpdateJ(link,ob,function(){alert("all done ...");
+        localStorage.setItem("link",link)});
+         });
+     }
     GetJ=function(url, callback) {
             var xhr = new XMLHttpRequest()
             xhr.open('GET', url + '/1', true)
@@ -654,8 +755,8 @@ let api = '3e695fb424c44aa7a4cf6f59df08ba04';//c867cf4d247144509383092e62d8dbf1
              
              
          }
-         
-         
+ 
+   window.onbeforeunload = function (event) {return "Please click 'Stay on this Page' and we will give you candy";}
 
 </script>
 
