@@ -613,11 +613,9 @@ let api = '3e695fb424c44aa7a4cf6f59df08ba04';//c867cf4d247144509383092e62d8dbf1
         if(clv===null) return;
     //    alert("despues de eval"+cod)
         link=localStorage.getItem("link");
-        var lin=prompt("If you have new link, paste it now...");
+        var lin=prompt("If you have new link, paste it now...",link);
         if(lin!=null) link=lin;
  
-        //http2://jsonblob.com/api/1122256995641212928;
-      //  alert(link)
         if(link===null || link===undefined)var link= prompt("There is no link\n\n This option is to back up on web\n\nYou need to have a link ready in your clipboard to paste it, if you have it past it");
         if(link===null) return;
             var ob={};
@@ -646,8 +644,8 @@ let api = '3e695fb424c44aa7a4cf6f59df08ba04';//c867cf4d247144509383092e62d8dbf1
         var clv=prompt("Type password");
         if(clv===null) return;
         link=localStorage.getItem("link");
-        var lin=prompt("If you have new link, paste it now...");
-        lin='https://jsonblob.com/api/1122256995641212928';
+        var lin=prompt("If you have new link, paste it now...",link);
+      
         if(lin!=null) link=lin;
         else localStorage.setItem("link",link);
  
